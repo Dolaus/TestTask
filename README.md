@@ -1,6 +1,21 @@
+Створити REST АРІ  бази викрадених авто.</br>
+2. Ендпоінти:</br>
+1. Додавання авто до бази. Для запису в базу користувач вводить ім'я, державний
+номер, колір і вин код (який програмно повинен декодуватись в марку, модель і
+рік, все записується в базу для зберігання), валідація значень, що вводяться.
+2. Виведення списку викрадених авто з
+▪ пагінацією
+▪ сортуванням по всіх полях
+▪ пошуком по імені/номерному знаку/по вин-коду в одному полі (у своїй базі)
+▪ фільтрами по марці, моделі, році - 3 різних фільтри
+3. Редагування/видалення записів, також потрібна валідація значень, що
+вводяться.
+4. Експорт списку з урахуванням всіх фільтрів і сортувань до файлу XLS.
+5. Реалізувати автооновлення бази марок і моделей із стороннього ресурсу раз на
+місяць.
+6. Реалізувати ендпоінт autocomplete марки та виведення всіх моделей цієї марки.
 
-
-<h3>POST</h3></br>
+<h3>POST</h3>
 http://127.0.0.1:8000/api/v1/cars/
 {
     "userName":"Petro",
@@ -8,13 +23,13 @@ http://127.0.0.1:8000/api/v1/cars/
     "color":"red",
     "vin_code":"3FA6P0VP1HR282209"
 }
-Response</br>
+<h4>Response</h4>
 {
     "success": "Car created successfully"
 }
-<h3>GET</h3></br>
-http://127.0.0.1:8000/api/v1/cars?brand=Ford&model=fusion&year=2017&search=3FA6P0VP1HR282209&sort_field=make&sort_order=desc&per_page=20
-Response</br>
+<h3>GET</h3>
+http://127.0.0.1:8000/api/v1/cars?brand=Ford&model=fusion&year=2017&search=3FA6P0VP1HR282209&sort_field=make&sort_order=desc&per_page=20</br>
+<h4>Response</h4></br>
 {
     "data": [
         {
@@ -65,19 +80,19 @@ Response</br>
     }
 }
 
-GET
-http://127.0.0.1:8000/api/v1/cars/export
-Response
+<h3>GET</h3>
+http://127.0.0.1:8000/api/v1/cars/export</br>
+<h4>Response</h4>
 download xls file with all filters
 
-GET
-http://127.0.0.1:8000/api/v1/cars/updatebrandsmodels
-Response
+<h3>GET</h3>
+http://127.0.0.1:8000/api/v1/cars/updatebrandsmodels</br>
+<h4>Response</h4>
 Update database with make and model
 
-GET
-http://127.0.0.1:8000/api/v1/cars/brands/11897/modelsAPI
-Response
+<h3>GET</h3>
+http://127.0.0.1:8000/api/v1/cars/brands/11897/modelsAPI</br>
+<h4>Response</h4>
 [
     {
         "Make_ID": 11897,
@@ -87,9 +102,9 @@ Response
     }
 ]
 
-GET
-http://127.0.0.1:8000/api/v1/cars/brands/11897/modelsDatabase
-Response
+<h3>GET</h3>
+http://127.0.0.1:8000/api/v1/cars/brands/11897/modelsDatabase</br>
+<h4>Response</h4>
 {
     "data": [
         {
@@ -104,8 +119,8 @@ Response
 }
 
 
-PUT
-http://127.0.0.1:8000/api/v1/cars/1
+<h3>PUT</h3>
+http://127.0.0.1:8000/api/v1/cars/1</br>
 
 {
     "userName":"Ruslan",
@@ -113,13 +128,14 @@ http://127.0.0.1:8000/api/v1/cars/1
     "color":"blue",
     "vin_code":"3FA6P0VP1HR282209"
 }
-Response
+<h4>Response</h4>
 {
     "message": "Updated"
 }
 
-http://127.0.0.1:8000/api/v1/cars/1
-Response
+<h3>DELETE</h3>
+http://127.0.0.1:8000/api/v1/cars/1</br>
+<h4>Response</h4>
 {
     "message": "Car deleted"
 }
