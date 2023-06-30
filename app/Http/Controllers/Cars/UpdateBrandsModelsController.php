@@ -30,16 +30,16 @@ class UpdateBrandsModelsController extends Controller
                     $response_makes_data = $responsemakes->json();
                     $array= $response_makes_data['Results'];
                     foreach ($array as $itemmodel){
-                        Models::create([
-                            'Model_Name'=>$itemmodel['Model_Name'],
+                        Models::firstOrCreate(['Model_ID'=>$itemmodel['Model_ID']],
+                            ['Model_Name'=>$itemmodel['Model_Name'],
                             'Model_ID'=>$itemmodel['Model_ID'],
                             'Make_ID'=>$item['Make_ID']
                         ]);
                     }
-                    return response()->json(['success' => 'Database Updated'], 201);
+
                 }
             }
-
+           return response()->json(['success' => 'Database Updated'], 201);
         }
         return response()->json(['Error' => 'Database NOtUpdated'], 500);
 

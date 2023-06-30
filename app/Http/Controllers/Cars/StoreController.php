@@ -17,6 +17,5 @@ class StoreController extends BaseController
     {
         $data=$request->validated();
         return $this->service->CreateCar($data);
-
     }
 }
