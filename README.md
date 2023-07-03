@@ -1,66 +1,141 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Створити REST АРІ  бази викрадених авто.</br>
+2. Ендпоінти:</br>
+1. Додавання авто до бази. Для запису в базу користувач вводить ім'я, державний
+номер, колір і вин код (який програмно повинен декодуватись в марку, модель і
+рік, все записується в базу для зберігання), валідація значень, що вводяться.
+2. Виведення списку викрадених авто з
+▪ пагінацією
+▪ сортуванням по всіх полях
+▪ пошуком по імені/номерному знаку/по вин-коду в одному полі (у своїй базі)
+▪ фільтрами по марці, моделі, році - 3 різних фільтри
+3. Редагування/видалення записів, також потрібна валідація значень, що
+вводяться.
+4. Експорт списку з урахуванням всіх фільтрів і сортувань до файлу XLS.
+5. Реалізувати автооновлення бази марок і моделей із стороннього ресурсу раз на
+місяць.
+6. Реалізувати ендпоінт autocomplete марки та виведення всіх моделей цієї марки.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<h3>POST</h3>
+http://127.0.0.1:8000/api/v1/cars/
+{
+    "userName":"Petro",
+    "license_plate":"AK1234AB",
+    "color":"red",
+    "vin_code":"3FA6P0VP1HR282209"
+}
+<h4>Response</h4>
+{
+    "success": "Car created successfully"
+}
+<h3>GET</h3>
+http://127.0.0.1:8000/api/v1/cars?brand=Ford&model=fusion&year=2017&search=3FA6P0VP1HR282209&sort_field=make&sort_order=desc&per_page=20</br>
+<h4>Response</h4></br>
+{
+    "data": [
+        {
+            "id": 1,
+            "userName": "Petro",
+            "license_plate": "AK1234AB",
+            "color": "red",
+            "vin_code": "3FA6P0VP1HR282209",
+            "make": "FORD",
+            "model": "Fusion",
+            "year": 2017,
+            "deleted_at": null,
+            "created_at": "2023-06-30T13:38:23.000000Z",
+            "updated_at": "2023-06-30T13:38:23.000000Z"
+        }
+    ],
+    "links": {
+        "first": "http://127.0.0.1:8000/api/v1/cars?page=1",
+        "last": "http://127.0.0.1:8000/api/v1/cars?page=1",
+        "prev": null,
+        "next": null
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 1,
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "http://127.0.0.1:8000/api/v1/cars?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": null,
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "path": "http://127.0.0.1:8000/api/v1/cars",
+        "per_page": 20,
+        "to": 1,
+        "total": 1
+    }
+}
 
-## About Laravel
+<h3>GET</h3>
+http://127.0.0.1:8000/api/v1/cars/export</br>
+<h4>Response</h4>
+download xls file with all filters
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<h3>GET</h3>
+http://127.0.0.1:8000/api/v1/cars/updatebrandsmodels</br>
+<h4>Response</h4>
+Update database with make and model
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<h3>GET</h3>
+http://127.0.0.1:8000/api/v1/cars/brands/11897/modelsAPI</br>
+<h4>Response</h4>
+[
+    {
+        "Make_ID": 11897,
+        "Make_Name": " Mid-Town Trailers",
+        "Model_ID": 30727,
+        "Model_Name": " Mid-Town Trailers"
+    }
+]
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<h3>GET</h3>
+http://127.0.0.1:8000/api/v1/cars/brands/11897/modelsDatabase</br>
+<h4>Response</h4>
+{
+    "data": [
+        {
+            "id": 1,
+            "Make_Name": " MID-TOWN TRAILERS",
+            "Make_ID": 11897,
+            "created_at": "2023-06-30T13:44:08.000000Z",
+            "updated_at": "2023-06-30T13:44:08.000000Z",
+            "Model_Name": " Mid-Town Trailers",
+            "Model_ID": 30727
+        }
+}
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+<h3>PUT</h3>
+http://127.0.0.1:8000/api/v1/cars/1</br>
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+{
+    "userName":"Ruslan",
+    "license_plate":"AK1234AB",
+    "color":"blue",
+    "vin_code":"3FA6P0VP1HR282209"
+}
+<h4>Response</h4>
+{
+    "message": "Updated"
+}
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<h3>DELETE</h3>
+http://127.0.0.1:8000/api/v1/cars/1</br>
+<h4>Response</h4>
+{
+    "message": "Car deleted"
+}
