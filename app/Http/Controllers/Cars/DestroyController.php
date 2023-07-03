@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Car;
 use Illuminate\Http\Request;
 
+
+
 class DestroyController extends BaseController
 {
     public function __invoke($id)

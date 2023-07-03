@@ -8,6 +8,16 @@ use App\Http\Service\CarsService;
 
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Info(
+ *      title="My Doc API",
+ *     version="1.0"
+ * ),
+ * @OA\PathItem(
+ *     path="/api/"
+ * )
+ *
+ */
 class BaseController extends Controller
 {
     public $service;

@@ -5,6 +5,7 @@ namespace App\Http\Service;
 
 
 use App\Http\Resources\CarCollection;
+use App\Http\Resources\CarsResource;
 use App\Models\Car;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
@@ -58,10 +59,7 @@ class CarsService implements CarsInterface
 
             if ($data['model']==null|| $data['make']==null||$data['year']==null){
                 return response()->json(['error' => 'Cannot find information about this vin'], 500);}
-
-            Car::firstOrCreate(['vin_code' => $data['vin_code']], $data);
-            return response()->json(['success' => 'Car created successfully'], 201);
-
+            return new CarsResource(Car::firstOrCreate(['vin_code' => $data['vin_code']], $data));
         } else {
             return response()->json(['error' => 'HTTP Error: ' . $response->status()], 500);
         }
