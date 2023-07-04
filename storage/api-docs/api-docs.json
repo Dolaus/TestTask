@@ -1,0 +1,100 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My Doc API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/": {},
+        "/api/v1/cars": {
+            "post": {
+                "tags": [
+                    "CARS"
+                ],
+                "summary": "Create",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "userName": {
+                                                "type": "string",
+                                                "example": "Petro"
+                                            },
+                                            "license_plate": {
+                                                "type": "string",
+                                                "example": "AT4637BC"
+                                            },
+                                            "color": {
+                                                "type": "string",
+                                                "example": "red"
+                                            },
+                                            "vin_code": {
+                                                "type": "string",
+                                                "example": "3FA6P0VP1HR282209"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "userName": {
+                                                    "type": "string",
+                                                    "example": "Petro"
+                                                },
+                                                "license_plate": {
+                                                    "type": "string",
+                                                    "example": "AT4637BC"
+                                                },
+                                                "color": {
+                                                    "type": "string",
+                                                    "example": "red"
+                                                },
+                                                "vin_code": {
+                                                    "type": "string",
+                                                    "example": "3FA6P0VP1HR282209"
+                                                },
+                                                "make": {
+                                                    "type": "string",
+                                                    "example": "FORD"
+                                                },
+                                                "model": {
+                                                    "type": "string",
+                                                    "example": "Fusion"
+                                                },
+                                                "year": {
+                                                    "type": "integer",
+                                                    "example": 2017
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
